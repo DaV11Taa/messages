@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Class Message Board</title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			body {
+				font-family: system-ui, sans-serif;
+				background: #f0f2f5;
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding: 30px 16px;
+			}
+
+			.card {
+				background: white;
+				border-radius: 16px;
+				padding: 28px;
+				width: 100%;
+				max-width: 560px;
+				box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+			}
+
+			h1 {
+				font-size: 22px;
+				margin-bottom: 6px;
+				color: #1a1a2e;
+			}
+
+			.subtitle {
+				font-size: 13px;
+				color: #888;
+				margin-bottom: 22px;
+			}
+
+			.status-bar {
+				display: flex;
+				align-items: center;
+				gap: 7px;
+				font-size: 12px;
+				margin-bottom: 20px;
+				padding: 8px 12px;
+				border-radius: 8px;
+				background: #f8f9fa;
+			}
+
+			.status-dot {
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				background: #ccc;
+				flex-shrink: 0;
+			}
+			.status-dot.connected {
+				background: #22c55e;
+			}
+			.status-dot.error {
+				background: #ef4444;
+			}
+
+			.inputs {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				margin-bottom: 14px;
+			}
+
+			input[type="text"] {
+				padding: 11px 14px;
+				border: 1.5px solid #e2e8f0;
+				border-radius: 10px;
+				font-size: 14px;
+				outline: none;
+				transition: border-color 0.2s;
+				width: 100%;
+			}
+
+			input[type="text"]:focus {
+				border-color: #6366f1;
+			}
+
+			button {
+				width: 100%;
+				padding: 12px;
+				background: #6366f1;
+				color: white;
+				border: none;
+				border-radius: 10px;
+				font-size: 14px;
+				font-weight: 600;
+				cursor: pointer;
+				transition:
+					background 0.2s,
+					opacity 0.2s;
+			}
+
+			button:hover {
+				background: #4f46e5;
+			}
+			button:disabled {
+				opacity: 0.5;
+				cursor: not-allowed;
+			}
+
+			.divider {
+				border: none;
+				border-top: 1.5px solid #f0f0f0;
+				margin: 22px 0;
+			}
+
+			.messages-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 14px;
+			}
+
+			.messages-header span {
+				font-size: 13px;
+				font-weight: 600;
+				color: #444;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+			}
+
+			.count-badge {
+				background: #ede9fe;
+				color: #6366f1;
+				font-size: 12px;
+				font-weight: 700;
+				padding: 2px 9px;
+				border-radius: 20px;
+			}
+
+			#messageList {
+				list-style: none;
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+				max-height: 380px;
+				overflow-y: auto;
+			}
+
+			.msg-item {
+				background: #f8f9ff;
+				border-radius: 10px;
+				padding: 11px 14px;
+				animation: fadeIn 0.3s ease;
+			}
+
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: translateY(6px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			.msg-name {
+				font-size: 12px;
+				font-weight: 700;
+				color: #6366f1;
+				margin-bottom: 3px;
+			}
+
+			.msg-text {
+				font-size: 14px;
+				color: #222;
+				line-height: 1.5;
+			}
+
+			.msg-time {
+				font-size: 11px;
+				color: #aaa;
+				margin-top: 4px;
+			}
+
+			.empty-state {
+				text-align: center;
+				color: #bbb;
+				font-size: 14px;
+				padding: 30px 0;
+			}
+
+			.config-warning {
+				background: #fff7ed;
+				border: 1.5px solid #fed7aa;
+				border-radius: 10px;
+				padding: 14px;
+				font-size: 13px;
+				color: #c2410c;
+				margin-bottom: 18px;
+				line-height: 1.6;
+			}
+			.config-warning b {
+				color: #9a3412;
+			}
+			.config-warning code {
+				background: #ffedd5;
+				padding: 1px 5px;
+				border-radius: 4px;
+				font-size: 12px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="card">
+			<h1>📋 Class Message Board</h1>
+			<p class="subtitle">Messages sync in real time across all devices</p>
+
+			<div id="configWarning" class="config-warning" style="display: none">
+				⚠️ <b>Action needed:</b> Open this file in a code editor and paste your
+				<code>databaseURL</code> into the config.<br />
+				Find it in: Firebase Console → Realtime Database → copy the URL at the
+				top.
+			</div>
+
+			<div class="status-bar">
+				<div class="status-dot" id="statusDot"></div>
+				<span id="statusText">Connecting to Firebase...</span>
+			</div>
+
+			<div class="inputs">
+				<input
+					type="text"
+					id="nameInput"
+					placeholder="Your name"
+					maxlength="30"
+				/>
+				<input
+					type="text"
+					id="msgInput"
+					placeholder="Type a message..."
+					maxlength="200"
+				/>
+			</div>
+			<button id="sendBtn" onclick="sendMessage()" disabled>
+				Send Message
+			</button>
+
+			<hr class="divider" />
+
+			<div class="messages-header">
+				<span>Live Messages</span>
+				<span class="count-badge" id="countBadge">0</span>
+			</div>
+
+			<ul id="messageList">
+				<li class="empty-state">No messages yet. Be the first!</li>
+			</ul>
+		</div>
+
+		<!-- ============================================================
+  Firebase compat scripts — load in this order, always
+============================================================ -->
+		<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+		<script>
+			// ============================================================
+			// YOUR FIREBASE CONFIG
+			// Paste your full config here.
+			// ⚠️  You must add databaseURL — it's missing from the console
+			//     snippet but required for Realtime Database.
+			//     Get it from: Firebase Console → Realtime Database → the URL shown at the top
+			//     It looks like: https://test-ca115-default-rtdb.firebaseio.com
+			// ============================================================
+			const firebaseConfig = {
+				apiKey: "AIzaSyCAwOj2uIglZhC6XIPtCrzZxWheA6NlZXc",
+				authDomain: "test-ca115.firebaseapp.com",
+				projectId: "test-ca115",
+				storageBucket: "test-ca115.firebasestorage.app",
+				messagingSenderId: "635584231800",
+				appId: "1:635584231800:web:ec435ac00bd6a6ca1b308d",
+				databaseURL: "https://test-ca115-default-rtdb.firebaseio.com",
+			};
+
+			// Initialize Firebase
+			firebase.initializeApp(firebaseConfig);
+
+			// Get reference to the Realtime Database
+			// All read/write operations go through this `db` variable
+			const db = firebase.database();
+
+			// ============================================================
+			// CONNECTION STATUS
+			// Firebase has a built-in path ".info/connected" that tells
+			// you if the app is currently connected to the database.
+			// ============================================================
+			const dot = document.getElementById("statusDot");
+			const statusText = document.getElementById("statusText");
+			const sendBtn = document.getElementById("sendBtn");
+
+			db.ref(".info/connected").on("value", function (snap) {
+				if (snap.val() === true) {
+					dot.classList.add("connected");
+					dot.classList.remove("error");
+					statusText.textContent = "Connected to Firebase ✓";
+					sendBtn.disabled = false;
+				} else {
+					dot.classList.remove("connected");
+					statusText.textContent = "Connecting...";
+					sendBtn.disabled = true;
+				}
+			});
+
+			// ============================================================
+			// WRITE DATA — sendMessage()
+			//
+			// db.ref("messages")  ← the PATH where data is stored
+			//                       Firebase creates this folder automatically
+			//
+			// .push({ ... })      ← adds a new item with a unique auto ID
+			//                       so messages never overwrite each other
+			//
+			// The database will look like this:
+			//   messages/
+			//     -Abc123def/
+			//       name: "Nino"
+			//       text: "Hello class!"
+			//       timestamp: 1716800000000
+			//     -Xyz789ghi/
+			//       name: "Giorgi"
+			//       text: "Hey!"
+			//       timestamp: 1716800005000
+			// ============================================================
+			function sendMessage() {
+				const name = document.getElementById("nameInput").value.trim();
+				const text = document.getElementById("msgInput").value.trim();
+
+				if (!name || !text) {
+					alert("Please enter both your name and a message.");
+					return;
+				}
+
+				// Write to the database
+				db.ref("messages").push({
+					name: name,
+					text: text,
+					timestamp: Date.now(), // we store time so we can sort messages
+				});
+
+				// Clear message input, keep name (user probably sends multiple)
+				document.getElementById("msgInput").value = "";
+			}
+
+			// Allow pressing Enter to send
+			document
+				.getElementById("msgInput")
+				.addEventListener("keydown", function (e) {
+					if (e.key === "Enter") sendMessage();
+				});
+
+			// ============================================================
+			// READ DATA — listen in real time
+			//
+			// db.ref("messages")         ← same PATH as where we write
+			// .orderByChild("timestamp") ← sort by time so newest is last
+			// .on("value", fn)           ← runs EVERY TIME data changes,
+			//                              on ANY device, instantly
+			//
+			// snapshot.val() returns all data at that path as one object
+			// ============================================================
+			db.ref("messages")
+				.orderByChild("timestamp")
+				.on("value", function (snapshot) {
+					const list = document.getElementById("messageList");
+					const badge = document.getElementById("countBadge");
+
+					list.innerHTML = ""; // clear and re-render everything
+
+					const data = snapshot.val();
+
+					if (!data) {
+						list.innerHTML =
+							'<li class="empty-state">No messages yet. Be the first!</li>';
+						badge.textContent = "0";
+						return;
+					}
+
+					// snapshot.val() gives us an object — convert to array to loop
+					const messages = Object.values(data);
+					badge.textContent = messages.length;
+
+					messages.forEach(function (msg) {
+						const li = document.createElement("li");
+						li.className = "msg-item";
+
+						// Format the timestamp into a readable time
+						const time = new Date(msg.timestamp).toLocaleTimeString([], {
+							hour: "2-digit",
+							minute: "2-digit",
+						});
+
+						li.innerHTML = `
+        <div class="msg-name">${escapeHtml(msg.name)}</div>
+        <div class="msg-text">${escapeHtml(msg.text)}</div>
+        <div class="msg-time">${time}</div>
+      `;
+						list.appendChild(li);
+					});
+
+					// Scroll to latest message
+					list.scrollTop = list.scrollHeight;
+				});
+
+			// Safety helper — prevents HTML injection from user input
+			function escapeHtml(str) {
+				return str
+					.replace(/&/g, "&amp;")
+					.replace(/</g, "&lt;")
+					.replace(/>/g, "&gt;")
+					.replace(/"/g, "&quot;");
+			}
+		</script>
+	</body>
+</html>
