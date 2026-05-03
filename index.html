@@ -35,13 +35,13 @@
 				margin-bottom: 6px;
 				color: #1a1a2e;
 			}
-
 			.subtitle {
 				font-size: 13px;
 				color: #888;
 				margin-bottom: 22px;
 			}
 
+			/* STATUS */
 			.status-bar {
 				display: flex;
 				align-items: center;
@@ -52,7 +52,6 @@
 				border-radius: 8px;
 				background: #f8f9fa;
 			}
-
 			.status-dot {
 				width: 8px;
 				height: 8px;
@@ -63,17 +62,100 @@
 			.status-dot.connected {
 				background: #22c55e;
 			}
-			.status-dot.error {
-				background: #ef4444;
+
+			/* AUTH GATE — shown when logged out */
+			#authGate {
+				text-align: center;
+				padding: 40px 20px;
+			}
+			#authGate .lock-icon {
+				font-size: 48px;
+				margin-bottom: 16px;
+			}
+			#authGate h2 {
+				font-size: 18px;
+				color: #1a1a2e;
+				margin-bottom: 8px;
+			}
+			#authGate p {
+				font-size: 14px;
+				color: #888;
+				margin-bottom: 24px;
+				line-height: 1.6;
 			}
 
+			/* MAIN APP — shown when logged in */
+			#appSection {
+				display: none;
+			}
+
+			/* TOP BAR */
+			.top-bar {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				margin-bottom: 20px;
+			}
+			.top-bar-left {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+			}
+			.avatar-btn {
+				width: 38px;
+				height: 38px;
+				border-radius: 50%;
+				border: 2px solid #6366f1;
+				overflow: hidden;
+				cursor: pointer;
+				flex-shrink: 0;
+				background: #ede9fe;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-weight: 700;
+				color: #6366f1;
+				font-size: 15px;
+				transition: opacity 0.2s;
+			}
+			.avatar-btn:hover {
+				opacity: 0.8;
+			}
+			.avatar-btn img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+			.top-user-name {
+				font-size: 14px;
+				font-weight: 600;
+				color: #1a1a2e;
+			}
+			.btn-signout {
+				padding: 7px 14px;
+				background: transparent;
+				color: #888;
+				border: 1.5px solid #e2e8f0;
+				border-radius: 8px;
+				font-size: 12px;
+				font-weight: 600;
+				cursor: pointer;
+				transition: all 0.2s;
+				width: auto;
+			}
+			.btn-signout:hover {
+				border-color: #ef4444;
+				color: #ef4444;
+				background: #fff5f5;
+			}
+
+			/* INPUTS */
 			.inputs {
 				display: flex;
 				flex-direction: column;
 				gap: 10px;
 				margin-bottom: 14px;
 			}
-
 			input[type="text"] {
 				padding: 11px 14px;
 				border: 1.5px solid #e2e8f0;
@@ -83,7 +165,6 @@
 				transition: border-color 0.2s;
 				width: 100%;
 			}
-
 			input[type="text"]:focus {
 				border-color: #6366f1;
 			}
@@ -102,7 +183,6 @@
 					background 0.2s,
 					opacity 0.2s;
 			}
-
 			button:hover {
 				background: #4f46e5;
 			}
@@ -111,19 +191,42 @@
 				cursor: not-allowed;
 			}
 
+			.btn-google {
+				background: white;
+				color: #333;
+				border: 1.5px solid #e2e8f0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 10px;
+				transition:
+					background 0.2s,
+					border-color 0.2s;
+			}
+			.btn-google:hover {
+				background: #f8f9ff;
+				border-color: #6366f1;
+				color: #333;
+			}
+			.btn-google svg {
+				width: 20px;
+				height: 20px;
+				flex-shrink: 0;
+			}
+
 			.divider {
 				border: none;
 				border-top: 1.5px solid #f0f0f0;
 				margin: 22px 0;
 			}
 
+			/* MESSAGES */
 			.messages-header {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
 				margin-bottom: 14px;
 			}
-
 			.messages-header span {
 				font-size: 13px;
 				font-weight: 600;
@@ -131,7 +234,6 @@
 				text-transform: uppercase;
 				letter-spacing: 0.5px;
 			}
-
 			.count-badge {
 				background: #ede9fe;
 				color: #6366f1;
@@ -140,7 +242,6 @@
 				padding: 2px 9px;
 				border-radius: 20px;
 			}
-
 			#messageList {
 				list-style: none;
 				display: flex;
@@ -149,14 +250,18 @@
 				max-height: 380px;
 				overflow-y: auto;
 			}
-
 			.msg-item {
 				background: #f8f9ff;
 				border-radius: 10px;
 				padding: 11px 14px;
 				animation: fadeIn 0.3s ease;
+				display: flex;
+				align-items: flex-start;
+				gap: 10px;
 			}
-
+			.msg-item.own-msg {
+				background: #ede9fe;
+			}
 			@keyframes fadeIn {
 				from {
 					opacity: 0;
@@ -167,26 +272,86 @@
 					transform: translateY(0);
 				}
 			}
-
+			.msg-avatar-wrap {
+				width: 32px;
+				height: 32px;
+				border-radius: 50%;
+				overflow: hidden;
+				flex-shrink: 0;
+				margin-top: 2px;
+				background: #ede9fe;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 13px;
+				font-weight: 700;
+				color: #6366f1;
+				cursor: pointer;
+				transition: opacity 0.2s;
+			}
+			.msg-avatar-wrap:hover {
+				opacity: 0.75;
+			}
+			.msg-avatar-wrap img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+			.msg-body {
+				flex: 1;
+			}
+			.msg-top {
+				display: flex;
+				align-items: baseline;
+				gap: 8px;
+				margin-bottom: 3px;
+				flex-wrap: wrap;
+			}
 			.msg-name {
 				font-size: 12px;
 				font-weight: 700;
 				color: #6366f1;
-				margin-bottom: 3px;
+				cursor: pointer;
 			}
-
+			.msg-name:hover {
+				text-decoration: underline;
+			}
+			.msg-time {
+				font-size: 11px;
+				color: #aaa;
+			}
+			.msg-bio {
+				font-size: 11px;
+				color: #aaa;
+				font-style: italic;
+			}
 			.msg-text {
 				font-size: 14px;
 				color: #222;
 				line-height: 1.5;
 			}
-
-			.msg-time {
-				font-size: 11px;
-				color: #aaa;
-				margin-top: 4px;
+			.msg-actions {
+				display: flex;
+				align-items: flex-start;
 			}
-
+			.btn-delete {
+				width: auto;
+				padding: 3px 8px;
+				background: transparent;
+				color: #ccc;
+				border: none;
+				border-radius: 6px;
+				font-size: 14px;
+				cursor: pointer;
+				line-height: 1;
+				transition:
+					color 0.2s,
+					background 0.2s;
+			}
+			.btn-delete:hover {
+				color: #ef4444;
+				background: #fff0f0;
+			}
 			.empty-state {
 				text-align: center;
 				color: #bbb;
@@ -194,24 +359,152 @@
 				padding: 30px 0;
 			}
 
-			.config-warning {
-				background: #fff7ed;
-				border: 1.5px solid #fed7aa;
-				border-radius: 10px;
-				padding: 14px;
+			/* ── MODAL OVERLAY ── */
+			.modal-overlay {
+				position: fixed;
+				inset: 0;
+				background: rgba(0, 0, 0, 0.45);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				z-index: 100;
+				padding: 16px;
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 0.2s;
+			}
+			.modal-overlay.open {
+				opacity: 1;
+				pointer-events: all;
+			}
+
+			.modal {
+				background: white;
+				border-radius: 16px;
+				padding: 28px;
+				width: 100%;
+				max-width: 400px;
+				box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+				transform: translateY(12px);
+				transition: transform 0.2s;
+				position: relative;
+			}
+			.modal-overlay.open .modal {
+				transform: translateY(0);
+			}
+
+			.modal-close {
+				position: absolute;
+				top: 14px;
+				right: 14px;
+				width: auto;
+				padding: 4px 10px;
+				background: transparent;
+				color: #aaa;
+				border: none;
+				border-radius: 6px;
+				font-size: 18px;
+				cursor: pointer;
+				line-height: 1;
+			}
+			.modal-close:hover {
+				background: #f0f0f0;
+				color: #333;
+			}
+
+			/* Profile modal content */
+			.modal-avatar {
+				width: 72px;
+				height: 72px;
+				border-radius: 50%;
+				overflow: hidden;
+				margin: 0 auto 14px;
+				border: 3px solid #6366f1;
+				background: #ede9fe;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 28px;
+				font-weight: 700;
+				color: #6366f1;
+			}
+			.modal-avatar img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+			.modal-name {
+				text-align: center;
+				font-size: 18px;
+				font-weight: 700;
+				color: #1a1a2e;
+				margin-bottom: 4px;
+			}
+			.modal-email {
+				text-align: center;
 				font-size: 13px;
-				color: #c2410c;
-				margin-bottom: 18px;
-				line-height: 1.6;
+				color: #888;
+				margin-bottom: 16px;
 			}
-			.config-warning b {
-				color: #9a3412;
+			.modal-bio-display {
+				text-align: center;
+				font-size: 14px;
+				color: #555;
+				font-style: italic;
+				background: #f8f9ff;
+				border-radius: 8px;
+				padding: 10px 14px;
+				margin-bottom: 16px;
+				min-height: 42px;
 			}
-			.config-warning code {
-				background: #ffedd5;
-				padding: 1px 5px;
-				border-radius: 4px;
-				font-size: 12px;
+
+			/* Own profile bio edit */
+			.bio-edit-wrap {
+				display: flex;
+				gap: 6px;
+				margin-bottom: 6px;
+			}
+			.bio-edit-wrap input {
+				flex: 1;
+				padding: 8px 12px;
+				border: 1.5px solid #e2e8f0;
+				border-radius: 8px;
+				font-size: 13px;
+				outline: none;
+				transition: border-color 0.2s;
+			}
+			.bio-edit-wrap input:focus {
+				border-color: #6366f1;
+			}
+			.btn-save-bio {
+				padding: 8px 16px;
+				background: #6366f1;
+				color: white;
+				border: none;
+				border-radius: 8px;
+				font-size: 13px;
+				font-weight: 600;
+				cursor: pointer;
+				width: auto;
+				transition: background 0.2s;
+			}
+			.btn-save-bio:hover {
+				background: #4f46e5;
+			}
+			.bio-saved {
+				font-size: 11px;
+				color: #22c55e;
+				text-align: center;
+				margin-top: 4px;
+				display: none;
+			}
+			.modal-section-label {
+				font-size: 11px;
+				font-weight: 600;
+				color: #aaa;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+				margin-bottom: 8px;
 			}
 		</style>
 	</head>
@@ -220,63 +513,124 @@
 			<h1>📋 Class Message Board</h1>
 			<p class="subtitle">Messages sync in real time across all devices</p>
 
-			<div id="configWarning" class="config-warning" style="display: none">
-				⚠️ <b>Action needed:</b> Open this file in a code editor and paste your
-				<code>databaseURL</code> into the config.<br />
-				Find it in: Firebase Console → Realtime Database → copy the URL at the
-				top.
-			</div>
-
 			<div class="status-bar">
 				<div class="status-dot" id="statusDot"></div>
 				<span id="statusText">Connecting to Firebase...</span>
 			</div>
 
-			<div class="inputs">
-				<input
-					type="text"
-					id="nameInput"
-					placeholder="Your name"
-					maxlength="30"
-				/>
-				<input
-					type="text"
-					id="msgInput"
-					placeholder="Type a message..."
-					maxlength="200"
-				/>
+			<!-- ── AUTH GATE (logged out) ── -->
+			<div id="authGate">
+				<div class="lock-icon">🔒</div>
+				<h2>Sign in to continue</h2>
+				<p>
+					You need to be signed in to view messages, see profiles, and post to
+					the board.
+				</p>
+				<button class="btn-google" id="btnGoogle">
+					<svg viewBox="0 0 48 48">
+						<path
+							fill="#FFC107"
+							d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.5 6.5 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"
+						/>
+						<path
+							fill="#FF3D00"
+							d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.5 6.5 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"
+						/>
+						<path
+							fill="#4CAF50"
+							d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.3 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8H6.2C9.5 35.6 16.3 44 24 44z"
+						/>
+						<path
+							fill="#1976D2"
+							d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.2-4.2 5.6l6.2 5.2C36.9 40.3 44 35 44 24c0-1.3-.1-2.6-.4-3.9z"
+						/>
+					</svg>
+					Sign in with Google
+				</button>
 			</div>
-			<button id="sendBtn" onclick="sendMessage()" disabled>
-				Send Message
-			</button>
 
-			<hr class="divider" />
+			<!-- ── MAIN APP (logged in) ── -->
+			<div id="appSection">
+				<!-- Top bar: avatar button + name + sign out -->
+				<div class="top-bar">
+					<div class="top-bar-left">
+						<div
+							class="avatar-btn"
+							id="myAvatarBtn"
+							onclick="openOwnProfile()"
+						></div>
+						<span class="top-user-name" id="topUserName"></span>
+					</div>
+					<button class="btn-signout" id="btnSignOut">Sign out</button>
+				</div>
 
-			<div class="messages-header">
-				<span>Live Messages</span>
-				<span class="count-badge" id="countBadge">0</span>
+				<!-- Message input -->
+				<div class="inputs">
+					<input
+						type="text"
+						id="msgInput"
+						placeholder="Type a message..."
+						maxlength="200"
+					/>
+				</div>
+				<button id="sendBtn" onclick="sendMessage()">Send Message</button>
+
+				<hr class="divider" />
+
+				<div class="messages-header">
+					<span>Live Messages</span>
+					<span class="count-badge" id="countBadge">0</span>
+				</div>
+
+				<ul id="messageList">
+					<li class="empty-state">No messages yet. Be the first!</li>
+				</ul>
 			</div>
-
-			<ul id="messageList">
-				<li class="empty-state">No messages yet. Be the first!</li>
-			</ul>
 		</div>
 
-		<!-- ============================================================
-  Firebase compat scripts — load in this order, always
-============================================================ -->
+		<!-- ── PROFILE MODAL ── -->
+		<div
+			class="modal-overlay"
+			id="profileModal"
+			onclick="closeModalOnOverlay(event)"
+		>
+			<div class="modal">
+				<button class="modal-close" onclick="closeProfile()">✕</button>
+
+				<div class="modal-avatar" id="modalAvatar"></div>
+				<div class="modal-name" id="modalName"></div>
+				<div class="modal-email" id="modalEmail"></div>
+
+				<!-- Bio: read-only view (other people's profiles) -->
+				<div
+					id="modalBioDisplay"
+					class="modal-bio-display"
+					style="display: none"
+				></div>
+
+				<!-- Bio: editable (own profile) -->
+				<div id="modalBioEdit" style="display: none">
+					<div class="modal-section-label">Your bio</div>
+					<div class="bio-edit-wrap">
+						<input
+							type="text"
+							id="bioInput"
+							placeholder="Add a bio..."
+							maxlength="80"
+						/>
+						<button class="btn-save-bio" onclick="saveBio()">Save</button>
+					</div>
+					<div class="bio-saved" id="bioSaved">Bio saved!</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Firebase -->
 		<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
 		<script>
-			// ============================================================
-			// YOUR FIREBASE CONFIG
-			// Paste your full config here.
-			// ⚠️  You must add databaseURL — it's missing from the console
-			//     snippet but required for Realtime Database.
-			//     Get it from: Firebase Console → Realtime Database → the URL shown at the top
-			//     It looks like: https://test-ca115-default-rtdb.firebaseio.com
-			// ============================================================
 			const firebaseConfig = {
 				apiKey: "AIzaSyCAwOj2uIglZhC6XIPtCrzZxWheA6NlZXc",
 				authDomain: "test-ca115.firebaseapp.com",
@@ -287,102 +641,107 @@
 				databaseURL: "https://test-ca115-default-rtdb.firebaseio.com",
 			};
 
-			// Initialize Firebase
 			firebase.initializeApp(firebaseConfig);
-
-			// Get reference to the Realtime Database
-			// All read/write operations go through this `db` variable
 			const db = firebase.database();
+			const auth = firebase.auth();
+			let currentUser = null;
 
-			// ============================================================
-			// CONNECTION STATUS
-			// Firebase has a built-in path ".info/connected" that tells
-			// you if the app is currently connected to the database.
-			// ============================================================
-			const dot = document.getElementById("statusDot");
-			const statusText = document.getElementById("statusText");
-			const sendBtn = document.getElementById("sendBtn");
-
+			// ── CONNECTION STATUS ──────────────────────────────────────────
 			db.ref(".info/connected").on("value", function (snap) {
-				if (snap.val() === true) {
-					dot.classList.add("connected");
-					dot.classList.remove("error");
-					statusText.textContent = "Connected to Firebase ✓";
-					sendBtn.disabled = false;
+				const dot = document.getElementById("statusDot");
+				const text = document.getElementById("statusText");
+				dot.classList.toggle("connected", snap.val() === true);
+				text.textContent = snap.val()
+					? "Connected to Firebase ✓"
+					: "Connecting...";
+			});
+
+			// ── GOOGLE SIGN IN / OUT ───────────────────────────────────────
+			const provider = new firebase.auth.GoogleAuthProvider();
+
+			document.getElementById("btnGoogle").onclick = function () {
+				auth.signInWithPopup(provider).catch(function (err) {
+					alert("Sign in failed: " + err.message);
+				});
+			};
+
+			document.getElementById("btnSignOut").onclick = function () {
+				auth.signOut();
+			};
+
+			// ── AUTH STATE ─────────────────────────────────────────────────
+			auth.onAuthStateChanged(function (user) {
+				currentUser = user;
+
+				if (user) {
+					document.getElementById("authGate").style.display = "none";
+					document.getElementById("appSection").style.display = "block";
+
+					// Top bar avatar
+					const avatarBtn = document.getElementById("myAvatarBtn");
+					if (user.photoURL) {
+						avatarBtn.innerHTML = `<img src="${user.photoURL}" alt="avatar">`;
+					} else {
+						avatarBtn.textContent = user.displayName
+							? user.displayName[0].toUpperCase()
+							: "?";
+					}
+					document.getElementById("topUserName").textContent = user.displayName;
+
+					// Save profile to DB
+					db.ref("users/" + user.uid).update({
+						name: user.displayName,
+						email: user.email,
+						photo: user.photoURL || "",
+					});
 				} else {
-					dot.classList.remove("connected");
-					statusText.textContent = "Connecting...";
-					sendBtn.disabled = true;
+					document.getElementById("authGate").style.display = "block";
+					document.getElementById("appSection").style.display = "none";
+					closeProfile();
 				}
 			});
 
-			// ============================================================
-			// WRITE DATA — sendMessage()
-			//
-			// db.ref("messages")  ← the PATH where data is stored
-			//                       Firebase creates this folder automatically
-			//
-			// .push({ ... })      ← adds a new item with a unique auto ID
-			//                       so messages never overwrite each other
-			//
-			// The database will look like this:
-			//   messages/
-			//     -Abc123def/
-			//       name: "Nino"
-			//       text: "Hello class!"
-			//       timestamp: 1716800000000
-			//     -Xyz789ghi/
-			//       name: "Giorgi"
-			//       text: "Hey!"
-			//       timestamp: 1716800005000
-			// ============================================================
+			// ── SEND MESSAGE ───────────────────────────────────────────────
 			function sendMessage() {
-				const name = document.getElementById("nameInput").value.trim();
+				if (!currentUser) return;
 				const text = document.getElementById("msgInput").value.trim();
+				if (!text) return;
 
-				if (!name || !text) {
-					alert("Please enter both your name and a message.");
-					return;
-				}
-
-				// Write to the database
-				db.ref("messages").push({
-					name: name,
-					text: text,
-					timestamp: Date.now(), // we store time so we can sort messages
-				});
-
-				// Clear message input, keep name (user probably sends multiple)
-				document.getElementById("msgInput").value = "";
+				db.ref("users/" + currentUser.uid + "/bio")
+					.get()
+					.then(function (snap) {
+						db.ref("messages").push({
+							uid: currentUser.uid,
+							name: currentUser.displayName,
+							photo: currentUser.photoURL || "",
+							bio: snap.val() || "",
+							text: text,
+							timestamp: Date.now(),
+						});
+						document.getElementById("msgInput").value = "";
+					});
 			}
 
-			// Allow pressing Enter to send
 			document
 				.getElementById("msgInput")
 				.addEventListener("keydown", function (e) {
 					if (e.key === "Enter") sendMessage();
 				});
 
-			// ============================================================
-			// READ DATA — listen in real time
-			//
-			// db.ref("messages")         ← same PATH as where we write
-			// .orderByChild("timestamp") ← sort by time so newest is last
-			// .on("value", fn)           ← runs EVERY TIME data changes,
-			//                              on ANY device, instantly
-			//
-			// snapshot.val() returns all data at that path as one object
-			// ============================================================
+			// ── DELETE MESSAGE ─────────────────────────────────────────────
+			function deleteMessage(key) {
+				db.ref("messages/" + key).remove();
+			}
+
+			// ── READ MESSAGES ──────────────────────────────────────────────
 			db.ref("messages")
 				.orderByChild("timestamp")
 				.on("value", function (snapshot) {
 					const list = document.getElementById("messageList");
 					const badge = document.getElementById("countBadge");
-
-					list.innerHTML = ""; // clear and re-render everything
+					list.innerHTML = "";
 
 					const data = snapshot.val();
-
 					if (!data) {
 						list.innerHTML =
 							'<li class="empty-state">No messages yet. Be the first!</li>';
@@ -390,34 +749,158 @@
 						return;
 					}
 
-					// snapshot.val() gives us an object — convert to array to loop
-					const messages = Object.values(data);
-					badge.textContent = messages.length;
+					const entries = Object.entries(data);
+					badge.textContent = entries.length;
 
-					messages.forEach(function (msg) {
+					entries.forEach(function ([key, msg]) {
 						const li = document.createElement("li");
-						li.className = "msg-item";
+						const isOwn = currentUser && msg.uid === currentUser.uid;
+						li.className = "msg-item" + (isOwn ? " own-msg" : "");
 
-						// Format the timestamp into a readable time
 						const time = new Date(msg.timestamp).toLocaleTimeString([], {
 							hour: "2-digit",
 							minute: "2-digit",
 						});
 
+						const avatarInner = msg.photo
+							? `<img src="${msg.photo}" alt="${escapeHtml(msg.name)}">`
+							: msg.name
+								? msg.name[0].toUpperCase()
+								: "?";
+
+						const deleteBtn = isOwn
+							? `<button class="btn-delete" onclick="deleteMessage('${key}')" title="Delete">✕</button>`
+							: "";
+
 						li.innerHTML = `
-        <div class="msg-name">${escapeHtml(msg.name)}</div>
-        <div class="msg-text">${escapeHtml(msg.text)}</div>
-        <div class="msg-time">${time}</div>
+        <div class="msg-avatar-wrap" onclick="openUserProfile('${msg.uid}')" title="View profile">
+          ${avatarInner}
+        </div>
+        <div class="msg-body">
+          <div class="msg-top">
+            <span class="msg-name" onclick="openUserProfile('${msg.uid}')">${escapeHtml(msg.name)}</span>
+            <span class="msg-time">${time}</span>
+            ${msg.bio ? `<span class="msg-bio">· ${escapeHtml(msg.bio)}</span>` : ""}
+          </div>
+          <div class="msg-text">${escapeHtml(msg.text)}</div>
+        </div>
+        <div class="msg-actions">${deleteBtn}</div>
       `;
 						list.appendChild(li);
 					});
 
-					// Scroll to latest message
 					list.scrollTop = list.scrollHeight;
 				});
 
-			// Safety helper — prevents HTML injection from user input
+			// ── PROFILE MODAL ──────────────────────────────────────────────
+			// Open YOUR OWN profile (from top bar avatar button)
+			function openOwnProfile() {
+				if (!currentUser) return;
+
+				// Load latest bio from DB
+				db.ref("users/" + currentUser.uid + "/bio")
+					.get()
+					.then(function (snap) {
+						showModal(
+							{
+								name: currentUser.displayName,
+								email: currentUser.email,
+								photo: currentUser.photoURL || "",
+								bio: snap.val() || "",
+							},
+							true,
+						); // true = isOwn
+					});
+			}
+
+			// Open SOMEONE ELSE'S profile (clicking their avatar or name in messages)
+			function openUserProfile(uid) {
+				if (!currentUser) return;
+
+				// If it's your own UID, open own profile
+				if (uid === currentUser.uid) {
+					openOwnProfile();
+					return;
+				}
+
+				// Read their profile from the database
+				db.ref("users/" + uid)
+					.get()
+					.then(function (snap) {
+						const profile = snap.val();
+						if (!profile) return;
+						showModal(profile, false); // false = not own profile
+					});
+			}
+
+			// Render the modal
+			function showModal(profile, isOwn) {
+				const modal = document.getElementById("profileModal");
+
+				// Avatar
+				const avatarEl = document.getElementById("modalAvatar");
+				if (profile.photo) {
+					avatarEl.innerHTML = `<img src="${profile.photo}" alt="avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+				} else {
+					avatarEl.textContent = profile.name
+						? profile.name[0].toUpperCase()
+						: "?";
+				}
+
+				document.getElementById("modalName").textContent =
+					profile.name || "Unknown";
+				document.getElementById("modalEmail").textContent = profile.email || "";
+
+				const bioDisplay = document.getElementById("modalBioDisplay");
+				const bioEdit = document.getElementById("modalBioEdit");
+
+				if (isOwn) {
+					// Show editable bio field
+					bioDisplay.style.display = "none";
+					bioEdit.style.display = "block";
+					document.getElementById("bioInput").value = profile.bio || "";
+					document.getElementById("bioSaved").style.display = "none";
+				} else {
+					// Show read-only bio
+					bioEdit.style.display = "none";
+					bioDisplay.style.display = "block";
+					bioDisplay.textContent = profile.bio || "No bio yet.";
+				}
+
+				modal.classList.add("open");
+			}
+
+			function closeProfile() {
+				document.getElementById("profileModal").classList.remove("open");
+			}
+
+			// Close modal when clicking the dark overlay (not the modal itself)
+			function closeModalOnOverlay(e) {
+				if (e.target === document.getElementById("profileModal"))
+					closeProfile();
+			}
+
+			// ── SAVE BIO ───────────────────────────────────────────────────
+			function saveBio() {
+				if (!currentUser) return;
+				const bio = document.getElementById("bioInput").value.trim();
+
+				db.ref("users/" + currentUser.uid + "/bio")
+					.set(bio)
+					.then(function () {
+						// Also update profile in DB
+						db.ref("users/" + currentUser.uid).update({ bio: bio });
+
+						const saved = document.getElementById("bioSaved");
+						saved.style.display = "block";
+						setTimeout(function () {
+							saved.style.display = "none";
+						}, 2000);
+					});
+			}
+
 			function escapeHtml(str) {
+				if (!str) return "";
 				return str
 					.replace(/&/g, "&amp;")
 					.replace(/</g, "&lt;")
